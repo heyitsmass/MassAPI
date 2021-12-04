@@ -26,9 +26,8 @@ def http_error(e):
 
     return codes.get(e, "Null Error")
 
-search_terms = {"searchCost", "searchDate" }
 results_terms = {"firstName", "lastName", "address", "city", "state", "zip" }
-response_terms = {"Cost: ", "Date: ", "First Name: ", "Last Name: ", "Address: ", "City: ", "State: ", "Zip Code: "}
+response_terms = {"First Name: ", "Last Name: ", "Address: ", "City: ", "State: ", "Zip Code: "}
 
 
 try: 
@@ -56,8 +55,13 @@ try:
             json.dump(search_response.json(), output_file)
     elif 'N': 
 
-        for terms in response_terms: 
-            print(terms, end = ': ') 
+        results = search_response.json()["results"] 
+        print(results)
+
+        i = 0
+        for term, response in results_terms, response_terms: 
+            print(term, results.json()[response]) 
+        
     # p_info[0] = search_response.json()["lastName"] 
 
     # print("Search Cost ($): {}\n Search Date: {}\n First Name: {}\nLast Name: {}\nAddress: {}\nCity: ()\nState: {}\nZip Code: {}").format(p_info[0], p_info[1], p_info[2], p_info[3], p_info[4], p_info[5], p_info[6], p_info[7])

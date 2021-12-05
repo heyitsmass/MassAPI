@@ -22,7 +22,7 @@ if len(results) > 0:
     print(results_terms) 
 
 for key in results_terms:
-    print(key, "%2d"
+    print(key, "%2d")
 
 p.close() 
 

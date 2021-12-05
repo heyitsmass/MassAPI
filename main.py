@@ -10,9 +10,6 @@ search_url = "https://api.openpeoplesearch.com/api/v1/Consumer/PhoneSearch"
 search_data =   '{ "phoneNumber" : "4259238226" }'
 search_headers = { "accept" : "text/plain", "Authorization" : "", "Content-Type" : "application/json" }
 
-filename = 'output.json'
-
-
 auth_response = None
 
 def http_error(e): 
@@ -48,17 +45,12 @@ try:
     if search_response.status_code != 200: 
         raise Exception(http_error(search_response.status_code))
 
-    
+    filename = (search_response.json()["searchId"] + ".json") 
     
     with open(filename, 'w') as output_file: 
         json.dump(search_response.json(), output_file)
 
-    results = search_response.json()["results"] 
-    print(results)
 
-    i = 0
-    for term, response in results_terms, response_terms: 
-        print(term, results.json()[response]) 
         
     # p_info[0] = search_response.json()["lastName"] 
 

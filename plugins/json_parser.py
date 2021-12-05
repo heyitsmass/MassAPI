@@ -1,43 +1,75 @@
 import json 
+import os.path
 
-p = open('output.json', 'r')
+class jsonParser: 
 
-output = json.load(p)
+    def __init__(self): 
+        self.p = __file__
+        self.output = object
+        self.searchId = int
+        self.results = list
+        self.input_terms = {
+                "firstName" : '', 
+                "lastName" : '', 
+                "address" : '', 
+                "city" : '', 
+                "state" : '', 
+                "zip" : ''
+        }
+        self.output_terms = {}
 
-search_id = output['searchId']
-
-#print(("Search ID: {}").format(search_id))
-
-results = output['results']
-
-results_terms = {"firstName" : "", "lastName" : "", "address" : "", "city" : "", "state" : "", "zip" : ""}
-output_terms = {}
-
-if len(results) > 0: 
+    def checkResults(self): 
+        if len(self.results) > 0: 
+            return True 
+        else:
+            return False 
     
-    #print("More than one result was found")
+    def loadFile(self): 
+        try: 
 
-    for a in results: 
-        for key in results_terms:
-             results_terms[key] = a[key]  
+            self.p = open(os.path.join(os.path.split(os.path.dirname(__file__))[0], 'output/output.json'), 'r') 
+        
+        except OSError as e: 
 
-delim = 'N'
+            print("Error: {}".format(e)) 
 
-for key in results_terms: 
+        self.output = json.load(self.p) 
 
-    temp_key = key 
+        self.searchId = self.output['searchId'] 
+        self.results = self.output['results'] 
 
-    res_pos = [i for i, e in enumerate(key+delim) if e.isupper()]
-    res_list = [key[res_pos[j]:res_pos[j+1]]
+        print("\nSearch ID".ljust(10), ':', self.searchId.ljust(20))
+        
+        if self.checkResults(): 
+            print("Results Found.") 
+        else: 
+            print("No Results Found.") 
+        
+        return 
+
+    def parseInput(self): 
+        delim = 'N'
+
+        for key in self.input_terms: 
+            
+            res_pos = [i for i, e in enumerate(key+delim) if e.isupper()]
+            res_list = [key[res_pos[j]:res_pos[j+1]]
                 for j in range(len(res_pos)-1)]
 
-    if len(res_list) > 0: 
-        output_terms[key.split(res_list[0])[0].capitalize() + ' ' + res_list[0]] = results_terms[temp_key]
-    else:
-        output_terms[key.capitalize()] = results_terms[temp_key]
+            if len(res_list) > 0: 
+                self.output_terms[key.split(res_list[0])[0].capitalize() + ' ' + res_list[0]] = self.input_terms[key]
+            else:
+                self.output_terms[key.capitalize()] = self.input_terms[key]
 
-for terms in output_terms: 
-    print(terms.ljust(10), ': ', output_terms[terms].ljust(20))
-        
-p.close() 
+        return 
+
+    def printOutput(self): 
+        for terms in self.output_terms: 
+            print(terms.ljust(10), ':', self.output_terms[terms].ljust(20))
+        print() 
+
+
+
+
+
 

@@ -4,6 +4,7 @@ import json
 import os 
 from plugins.json_parser import jsonParser as jp 
 from plugins.colors import Colors as color 
+from plugins.menu import Menu 
 
 def http_error(e): 
 
@@ -32,14 +33,7 @@ def main():
 
     auth_response = None 
 
-    auth_data["username"] = input(f"{color.WHT}[{color.RED}-{color.WHT}] Username: {color.RST}")
-    os.system('clear')
-    print(f"{color.WHT}[{color.GRN}✓{color.WHT}] Username: {color.RST}" + ('*' * int(len(auth_data["username"]) / 2)))
-
-    auth_data["password"] = input(f"{color.WHT}[{color.RED}-{color.WHT}] Password: {color.RST}") 
-    os.system('clear')
-    print(f"{color.WHT}[{color.GRN}✓{color.WHT}] Username: {color.RST}" + ('*' * int(len(auth_data["username"]) / 2)))
-    print(f"{color.WHT}[{color.GRN}✓{color.WHT}] Password: {color.RST}" + ('*' * int(len(auth_data["password"]) / 2)))
+    Menu.display(auth_data) 
 
     try: 
         auth_response = requests.post(auth_url, headers=auth_headers, data=json.dumps(auth_data)) 

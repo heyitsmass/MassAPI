@@ -1,48 +1,57 @@
-#from lxml import html 
-#import requests 
-
-
+from lxml import html 
+import requests 
+import json 
 from plugins.json_parser import jsonParser as jp 
+from plugins.colors import Colors as color 
 
-output = jp('output.json') 
+def http_error(e): 
 
-#auth_url     = "https://api.openpeoplesearch.com/api/v1/User/authenticate"
-#auth_data    = '{ "username" : "brandon.cannon88@gmail.com", "password" : "CnG2wDfE3789!"}'
-#auth_headers = { "Content-Type" : "application/json", "accept" : "*/*" }
- 
-#search_url = "https://api.openpeoplesearch.com/api/v1/Consumer/PhoneSearch"
-#search_data =   '{ "phoneNumber" : "4259238226" }'
-#search_headers = { "accept" : "text/plain", "Authorization" : "", "Content-Type" : "application/json" }
+    codes = { 
+        400 : "Bad request", 
+        401 : "Unauthorized", 
+        402 : "Payment Required", 
+        500 : "Internal Server Error", 
+        503 : "Temporarily Unavailable", 
+        200 : "Valid request",
+    }
 
-#auth_response = None
+    return codes.get(e, "Null Error")
 
-#def http_error(e): 
+def main(): 
 
-#    codes = { 
-#        400 : "Bad request", 
-#        401 : "Unauthorized", 
-#        402 : "Payment Required", 
-#        500 : "Internal Server Error", 
-#        503 : "Temporarily Unavailable", 
-#        200 : "Valid request",
-#    }
+    auth_url = "https://api.openpeoplesearch.com/api/v1/User/authenticate"
+    auth_data = { "username" : "", "password" : ""}
+    auth_headers = { "Content-Type" : "application/json", "accept" : "*/*" }
 
-#    return codes.get(e, "Null Error")
+    search_url = "https://api.openpeoplesearch.com/api/v1/Consumer/PhoneSearch"
+    search_data =   '{ "phoneNumber" : "" }'
+    search_headers = { "accept" : "text/plain", "Authorization" : "", "Content-Type" : "application/json" }
 
-#results_terms = {"firstName", "lastName", "address", "city", "state", "zip" }
-#response_terms = {"First Name: ", "Last Name: ", "Address: ", "City: ", "State: ", "Zip Code: "}
+    auth_response = None 
 
+    auth_data["username"] = input(f"{color.WHT}[{color.RED}-{color.WHT}] Username: {color.RST}")
+    auth_data["password"] = input(f"{color.WHT}[{color.RED}-{color.WHT}] Password: {color.RST}") 
+
+    try: 
+        auth_response = requests.post(auth_url, headers=auth_headers, data=json.dumps(auth_data)) 
+
+        if auth_response.status_code != 200: 
+            raise Exception(http_error(auth_response.status_code)) 
+
+        print(f"{color.WHT}[{color.GRN}+{color.WHT}] User Sucessfully Authenticated.{color.RST}")  
+        
+    except Exception as e: 
+        print(("[-] Error: {}").format(e))
+
+
+    return 
+
+if __name__ == "__main__": 
+    main() 
 
 #try: 
-    
-#    auth_response = requests.post(auth_url, headers = auth_headers, data = auth_data)
 
-#    if auth_response.status_code != 200: 
-#        raise Exception(http_error(auth_response.status_code))
-
-#    auth_token = auth_response.json()["token"]
-
-#    search_headers["Authorization"] = ("Bearer {}").format(auth_token) 
+#   search_headers["Authorization"] = ("Bearer {}").format(auth_response.json()["token"]) 
 
 #   search_response = requests.post(search_url, headers= search_headers, data = search_data)
 

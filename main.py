@@ -1,6 +1,7 @@
 from lxml import html 
 import requests 
 import json 
+import os 
 from plugins.json_parser import jsonParser as jp 
 from plugins.colors import Colors as color 
 
@@ -17,7 +18,9 @@ def http_error(e):
 
     return codes.get(e, "Null Error")
 
-def main(): 
+def main():
+
+    os.system('clear')  
 
     auth_url = "https://api.openpeoplesearch.com/api/v1/User/authenticate"
     auth_data = { "username" : "", "password" : ""}
@@ -30,7 +33,13 @@ def main():
     auth_response = None 
 
     auth_data["username"] = input(f"{color.WHT}[{color.RED}-{color.WHT}] Username: {color.RST}")
+    os.system('clear')
+    print(f"{color.WHT}[{color.GRN}✓{color.WHT}] Username: {color.RST}" + ('*' * int(len(auth_data["username"]) / 2)))
+
     auth_data["password"] = input(f"{color.WHT}[{color.RED}-{color.WHT}] Password: {color.RST}") 
+    os.system('clear')
+    print(f"{color.WHT}[{color.GRN}✓{color.WHT}] Username: {color.RST}" + ('*' * int(len(auth_data["username"]) / 2)))
+    print(f"{color.WHT}[{color.GRN}✓{color.WHT}] Password: {color.RST}" + ('*' * int(len(auth_data["password"]) / 2)))
 
     try: 
         auth_response = requests.post(auth_url, headers=auth_headers, data=json.dumps(auth_data)) 
@@ -38,11 +47,15 @@ def main():
         if auth_response.status_code != 200: 
             raise Exception(http_error(auth_response.status_code)) 
 
-        print(f"{color.WHT}[{color.GRN}+{color.WHT}] User Sucessfully Authenticated.{color.RST}")  
+        print(f"{color.WHT}[{color.GRN}+{color.WHT}] User sucessfully authenticated.{color.RST}")  
         
     except Exception as e: 
-        print(("[-] Error: {}").format(e))
+        print(f"{color.WHT}[{color.RED}X{color.WHT}] Error: {color.RED}" + str(e) + color.RST)
 
+    auth_data["username"] = '-' 
+    auth_data["password"] = '-' 
+
+    print(f"{color.WHT}[{color.GRN}✓{color.WHT}] User information redacted sucessfully.{color.RST}")
 
     return 
 

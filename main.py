@@ -1,10 +1,13 @@
-from lxml import html 
-import requests 
-import json 
-import os 
-from plugins.json_parser import jsonParser as jp 
-from plugins.colors import Colors as color 
-from plugins.menu import Menu 
+import json
+import os
+
+import requests
+from lxml import html
+
+from plugins.colors import Colors as color
+from plugins.json_parser import jsonParser as jp
+from plugins.menu import Menu
+
 
 def http_error(e): 
 

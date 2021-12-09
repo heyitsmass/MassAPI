@@ -44,7 +44,7 @@ def main():
         if auth_response.status_code != 200: 
             raise Exception(http_error(auth_response.status_code)) 
 
-        print(f"{color.WHT}[{color.GRN}+{color.WHT}] User sucessfully authenticated.{color.RST}")  
+        print(f"{color.WHT}[{color.GRN}✓{color.WHT}] User sucessfully authenticated.{color.RST}")  
         
     except Exception as e: 
         print(f"{color.WHT}[{color.RED}X{color.WHT}] Error: {color.RED}" + str(e) + color.RST)
@@ -52,12 +52,20 @@ def main():
     auth_data["username"] = '-' 
     auth_data["password"] = '-' 
 
-    print(f"{color.WHT}[{color.GRN}✓{color.WHT}] User information redacted sucessfully.{color.RST}")
+    print(f"{color.WHT}[{color.GRN}✓{color.WHT}] User information redacted.{color.RST}")
+
+    return 
+
+def main_two():
+
+    Menu.main_menu()
+
 
     return 
 
 if __name__ == "__main__": 
-    main() 
+    #main() 
+    main_two() 
 
 #try: 
 

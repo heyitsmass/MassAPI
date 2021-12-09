@@ -45,14 +45,14 @@ class Menu:
 
         banner().display() 
 
-        print()
-        print("-*-~-*-~-*-~-*-~-*- Main Menu -*-~-*-~-*-~-*-~-*-".center(100))
-        print("1. Phone number search".rjust(50))
+        #print()
+        #print("-*-~-*-~-*-~-*-~-*- Main Menu -*-~-*-~-*-~-*-~-*-".center(100))
+        #print("1. Phone number search".rjust(50))
 
-        stdscr = curses.initscr()
+        #stdscr = curses.initscr()
 
 
                                            
         return 
 
-    curses.wrapper(key_listener)
+    #curses.wrapper(key_listener)

@@ -6,7 +6,7 @@
 
 <b>Current API's Implemented:</b> 
 
-- OpenPeopleSearch
+- [OpenPeopleSearch](https://www.openpeoplesearch.com/Api)
 
  
 

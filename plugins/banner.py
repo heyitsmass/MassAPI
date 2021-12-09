@@ -9,5 +9,4 @@ class banner:
         print("| |\/| |/ _` / __/ __| |  _  ||  __/  | |".center(self.width))
         print("| |  | | (_| \__ \__ \ | | | || |    _| |_".center(self.width)) 
         print("\_|  |_/\__,_|___/___/ \_| |_/\_|    \___/".center(self.width))
-        print("-*~-~*- A practice environment -*~-~*-".center(self.width))
-        print("~*-*-~ API implementation ~*-*-~".center(self.width))
+        print("-~*- An API practice environment -*~-".center(self.width))

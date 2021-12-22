@@ -1,4 +1,3 @@
-import os.path
 import json 
 
 class jsonParser: 
@@ -24,27 +23,22 @@ class jsonParser:
 
     def loadFile(self): 
         
-        try: 
-            self.p = open(os.path.join(os.path.split(os.path.dirname(__file__))[0], 'output/' + self.filename), 'r') 
-        except OSError as e: 
-            print("Error: {}".format(e)) 
+        self.p = open(self.filename, 'r') 
 
         self.output = json.load(self.p) 
         self.searchId = self.output['searchId'] 
         self.results = self.output['results'] 
 
-        print("\nSearch ID ".ljust(10), ':', self.searchId.ljust(20))
-        
         if len(self.results) > 0: 
             self.parseInput() 
-            self.printOutput() 
         else: 
-            print("No Results Found.") 
-        return 
+            return None 
+
+        return self.output_terms
 
     def parseInput(self): 
         delim = 'N'
-
+        # Add in functionality to parse multiple results should just need a loop and replacement of 0 in self.results[0]
         for key in self.input_terms: 
            for value in key:  
                 res_pos = [i for i, e in enumerate(value+delim) if e.isupper()]
@@ -57,11 +51,6 @@ class jsonParser:
                     self.output_terms[value.capitalize()] = self.results[0][value] 
         return  
 
-    def printOutput(self): 
-        print() 
-        for terms in self.output_terms: 
-            print(terms.ljust(10), ':', self.output_terms[terms].ljust(20))
-        print() 
 
 
 

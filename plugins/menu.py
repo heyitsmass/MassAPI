@@ -1,58 +1,66 @@
-import os
-import cursor 
 import curses
-from curses import wrapper
-from .colors import Colors as color
-from .banner import banner 
+from   curses import panel
 
-class Menu: 
+from .resources.banners import banners 
 
-    def __init__(self, **auth_data): 
-        self = auth_data
+class Menu(object): 
+    def __init__(self, items, stdscreen, banner): 
+        self.window = stdscreen.subwin(0, 0) 
+        self.window.keypad(1) 
+        self.panel = panel.new_panel(self.window)
+        self.panel.hide()
+        panel.update_panels()
 
+        self.banner = banner 
+
+        self.position = 0
+        self.items = items 
+
+        if self.banner.find('Main Menu') != -1: 
+            self.items.append(('Exit', 'Exit'))
+        else: 
+            self.items.append(('Back', 'Back'))
+
+    def navigate(self, n): 
+        self.position += n
+        if self.position < 0: 
+            self.position = 0
+        elif self.position >= len(self.items): 
+            self.position = len(self.items) - 1
+    
     def display(self): 
+        self.panel.top()
+        self.panel.show()
+        self.window.clear()
 
-        self["username"] = input(f"{color.WHT}[{color.RED}-{color.WHT}] Username: {color.RST}")
-        os.system('clear')
-        print(f"{color.WHT}[{color.GRN}✓{color.WHT}] Username: {color.RST}" + ('*' * int(len(self["username"]) / 2)))
-
-        self["password"] = input(f"{color.WHT}[{color.RED}-{color.WHT}] Password: {color.RST}") 
-        os.system('clear')
-        print(f"{color.WHT}[{color.GRN}✓{color.WHT}] Username: {color.RST}" + ('*' * int(len(self["username"]) / 2)))
-        print(f"{color.WHT}[{color.GRN}✓{color.WHT}] Password: {color.RST}" + ('*' * int(len(self["password"]) / 2)))
-
-        return 
-
-    def key_listener(win): 
-        win.nodelay(True)
-        key = ''
-        win.clear()
-        win.addstr("Detected key: ") 
         while True: 
-            try: 
-                key = win.getkey() 
-                win.clear() 
-                win.addstr("Detected key: ") 
-                win.addstr(str(key)) 
-                if key == os.linesep: 
+            self.window.refresh()
+            curses.doupdate()
+            banners.display_banner(self) 
+            self.window.addstr(8, 46, self.banner) 
+            for index, item in enumerate(self.items): 
+                if index == self.position: 
+                    mode = curses.A_REVERSE
+                else: 
+                    mode = curses.A_NORMAL
+                
+                msg = "%d. %s" % (index +1, item[0])
+                self.window.addstr(9+index, 48, msg, mode) 
+            
+            key = self.window.getch()
+
+            if key in [curses.KEY_ENTER, ord('\n')]: 
+                if self.position == len(self.items) - 1: 
                     break 
-            except Exception as e: 
-                pass 
+                else: 
+                    self.items[self.position][1]()
+            elif key == curses.KEY_UP: 
+                self.navigate(-1) 
 
-    def main_menu():
+            elif key == curses.KEY_DOWN: 
+                self.navigate(1)
 
-        cursor.hide() 
-
-        banner().display() 
-
-        #print()
-        #print("-*-~-*-~-*-~-*-~-*- Main Menu -*-~-*-~-*-~-*-~-*-".center(100))
-        #print("1. Phone number search".rjust(50))
-
-        #stdscr = curses.initscr()
-
-
-                                           
-        return 
-
-    #curses.wrapper(key_listener)
+        self.window.clear() 
+        self.panel.hide() 
+        panel.update_panels() 
+        curses.doupdate()

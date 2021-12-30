@@ -17,7 +17,7 @@ class JsonParser:
             results = output['results']
 
             if len(results) > 0: 
-                return Output(self.parseInput(results), filename) 
+                return Output(self.parseInput(results), filename)
         return None
     
     def parseInput(self, results): 

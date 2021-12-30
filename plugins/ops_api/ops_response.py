@@ -6,7 +6,6 @@ import os
 from .ops_parser import JsonParser
 from .ops_error_codes import ErrorCode
 
-
 class Response(object): 
     def __init__(self, scr):
         self.window = scr
@@ -48,7 +47,6 @@ class Response(object):
         return JsonParser().loadFile(filename) 
 
     def outputResponse(self, filename, response): 
-
         try: 
             with open(filename, 'w') as output_file: 
                 json.dump(response.json(), output_file)

@@ -1,0 +1,101 @@
+{"DNSData": {
+  "domainName": "virtualguard.com",
+  "types": [
+    -1
+  ],
+  "dnsTypes": "_all",
+  "audit": {
+    "createdDate": "2021-12-29 11:39:36 UTC",
+    "updatedDate": "2021-12-29 11:39:36 UTC"
+  },
+  "dnsRecords": [
+    {
+      "type": 16,
+      "dnsType": "TXT",
+      "name": "virtualguard.com.",
+      "ttl": 3600,
+      "rRsetType": 16,
+      "rawText": "virtualguard.com.\u00093600\u0009IN\u0009TXT\u0009\"v=spf1 include:spf.protection.outlook.com include:spf.mandrillapp.com -all\"",
+      "strings": [
+        "v=spf1 include:spf.protection.outlook.com include:spf.mandrillapp.com -all"
+      ]
+    },
+    {
+      "type": 16,
+      "dnsType": "TXT",
+      "name": "virtualguard.com.",
+      "ttl": 3600,
+      "rRsetType": 16,
+      "rawText": "virtualguard.com.\u00093600\u0009IN\u0009TXT\u0009\"google-site-verification=PAoPDzg8NudXGP3-rWMngd-qrwvf8AdAfZN1z6_LRQ0\"",
+      "strings": [
+        "google-site-verification=PAoPDzg8NudXGP3-rWMngd-qrwvf8AdAfZN1z6_LRQ0"
+      ]
+    },
+    {
+      "type": 16,
+      "dnsType": "TXT",
+      "name": "virtualguard.com.",
+      "ttl": 3600,
+      "rRsetType": 16,
+      "rawText": "virtualguard.com.\u00093600\u0009IN\u0009TXT\u0009\"v=verifydomain MS=6477782\"",
+      "strings": [
+        "v=verifydomain MS=6477782"
+      ]
+    },
+    {
+      "type": 1,
+      "dnsType": "A",
+      "name": "virtualguard.com.",
+      "ttl": 3214,
+      "rRsetType": 1,
+      "rawText": "virtualguard.com.\u00093214\u0009IN\u0009A\u0009107.180.14.68",
+      "address": "107.180.14.68"
+    },
+    {
+      "type": 2,
+      "dnsType": "NS",
+      "name": "virtualguard.com.",
+      "additionalName": "ns42.domaincontrol.com.",
+      "ttl": 3600,
+      "rRsetType": 2,
+      "rawText": "virtualguard.com.\u00093600\u0009IN\u0009NS\u0009ns42.domaincontrol.com.",
+      "target": "ns42.domaincontrol.com."
+    },
+    {
+      "type": 2,
+      "dnsType": "NS",
+      "name": "virtualguard.com.",
+      "additionalName": "ns41.domaincontrol.com.",
+      "ttl": 3600,
+      "rRsetType": 2,
+      "rawText": "virtualguard.com.\u00093600\u0009IN\u0009NS\u0009ns41.domaincontrol.com.",
+      "target": "ns41.domaincontrol.com."
+    },
+    {
+      "type": 6,
+      "dnsType": "SOA",
+      "name": "virtualguard.com.",
+      "ttl": 3600,
+      "rRsetType": 6,
+      "rawText": "virtualguard.com.\u00093600\u0009IN\u0009SOA\u0009ns41.domaincontrol.com. dns.jomax.net. 2021080200 28800 7200 604800 600",
+      "admin": "dns.jomax.net.",
+      "host": "ns41.domaincontrol.com.",
+      "expire": 604800,
+      "minimum": 600,
+      "refresh": 28800,
+      "retry": 7200,
+      "serial": 2021080200
+    },
+    {
+      "type": 15,
+      "dnsType": "MX",
+      "name": "virtualguard.com.",
+      "additionalName": "virtualguard-com.mail.protection.outlook.com.",
+      "ttl": 3600,
+      "rRsetType": 15,
+      "rawText": "virtualguard.com.\u00093600\u0009IN\u0009MX\u00090 virtualguard-com.mail.protection.outlook.com.",
+      "priority": 0,
+      "target": "virtualguard-com.mail.protection.outlook.com."
+    }
+  ]
+}}

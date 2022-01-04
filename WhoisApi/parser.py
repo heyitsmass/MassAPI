@@ -20,17 +20,11 @@ def parse(output=None, numTabs=0, List=[]):
                 break 
 
         new_key = key.split(delim) 
-        
+
         if type(output[key]) != list and type(output[key]) != dict: 
-            if len(new_key) > 1: 
-                addition = ' ' + delim + new_key[1] + ': ' + str(output[key]) 
-            else: 
-                addition = ': ' + str(output[key]) 
+            addition = ' ' + delim + new_key[1] + ": " + str(output[key]) if len(new_key) > 1 else ": " + str(output[key])  
         else: 
-            if len(new_key) > 1: 
-                addition = ' ' + delim + new_key[1] + ': '
-            else: 
-                addition = ': '
+            addition = ' ' + delim + new_key[1] + ": " if len(new_key) > 1 else ": "
 
         List.append(("\t" * numTabs) + new_key[0].capitalize() + addition)
 
@@ -61,11 +55,4 @@ def load(filename = ""):
     except OSError as e: 
         print(e) 
     return None
-
-output = load("information.json") 
-
-
-
-for word in output: 
-    print(word) 
 

@@ -4,7 +4,7 @@ class package:
     def __init__(self, index, array=None): 
         self.array = array 
         self.index = index 
-
+'''
 def load_a(data, i, key = ""): 
     string = "" 
     while i < len(data): 
@@ -42,12 +42,13 @@ def load_d(data, i):
             if string.find(key[::-1]): 
                 string = string.replace((','+key[::-1]), "")
             
-            saved_key = key[::-1].strip('\n, ,\t, , ", :')  
+            saved_key = key[::-1].strip('\n, ,\t, , ", :') 
+            print(saved_key)  
             packet = load_d(data, i+1)
             i = packet.index+1
-            print(saved_key, packet.array) 
-            #__list_two__[key] = packet.array
-            continue 
+            
+            #__list_two__[saved_key] = packet.array
+            continue  
         if data[i] == '[':
             j = len(string)-1
             key = "" 
@@ -87,11 +88,8 @@ def load_d(data, i):
                 key = key.strip('", [, ]')
                 value = value.strip('", ", ], [')
 
-                #print(key, ": ", value) 
-                if key != saved_key: 
-                    __list__[key] = value
+                print(key) 
 
-            #print("> dict end") 
             return package(i, __list__) 
         string += data[i] 
         i+=1 
@@ -107,7 +105,7 @@ def load(infile, i=0):
         if data[i] == '{':
             packet = load_d(data, i) 
             i = packet.index+1
-            __dict__ = packet.array
+            #print(packet.array)
             continue 
         elif data[i] == '}': 
             print("> dict end") 
@@ -116,7 +114,77 @@ def load(infile, i=0):
 
         i+=1 
 
-    return __dict__ 
+    return __dict__
+
+'''
+
+def load_arr(data, i): 
+
+    while i < len(data): 
+        if data[i] == '{': 
+            print("> dict begin") 
+            i = load_dict(data, i+1).index+1
+        if data[i] == '[': 
+            print("> arr  begin") 
+            i = load_arr(data, i+1).index+1 
+        if data[i] == ']': 
+            print("> arr  end")
+            return package(i) 
+        i+=1 
+
+    return package(i) 
+
+def load_dict(data, i): 
+
+    string = ""
+
+    while i < len(data): 
+        if data[i] == '{':
+            string = string.splitlines()
+            for j, k in enumerate(string, 0):
+                string[j] = k.strip(' , ",", " "') 
+
+            temp = [] 
+
+            for word in string: 
+                if word == '\n': 
+                    continue 
+                temp.append(word) 
+
+            print(temp)
+
+            print("> dict begin") 
+            i = load_dict(data, i+1).index+1
+            string = "" 
+            continue
+        elif data[i] == '[': 
+            i = load_arr(data, i).index+1
+            continue 
+        elif data[i] == '}':
+            string = string.splitlines()
+            for j, k in enumerate(string, 0):  
+                string[j] = k.strip(' , ","') 
+            print(string) 
+            print("> dict end") 
+            break 
+
+        string += data[i] 
+        i+=1 
+
+    return package(i) 
+
+def load(infile, i=0): 
+    __dict__ = {} 
+    data = infile.read() 
+    while i < len(data): 
+        if data[i] == '{':
+            i = load_dict(data, i).index
+            break 
+
+        
+        i+=1 
+        
+        
 
 output = load(open(filename, 'r'))
 

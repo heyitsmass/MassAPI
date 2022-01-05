@@ -1,170 +1,124 @@
-filename = "geolocation.json" 
+filename = "information.json"
 
-final = {} 
-
-key = ''
-value = ''
-
-temp = {} 
-'''
-with open(filename, 'r') as outfile: 
-    data =  outfile.read()
-    for i in range(len(data)):
-        if data[i] == '"' and not key_active and not key_filled: 
-            #print("Found key start!")
-            key_active = True
-            continue
-        elif data[i] == '"' and key_active and not key_filled: 
-            #print("Found key end!") 
-            key_filled = True 
-            print(key) 
-        elif data[i] == '"' and key_active and key_filled and not value_active: 
-            #print("Found value start!")
-            value_active = True 
-            continue 
-        elif data[i] == '"' and key_active and key_filled and value_active: 
-            #print("Found value end!")
-            key_active = False
-            key_filled = False 
-            value_active = False 
-            print(value)
-            final[key] = value 
-            value = ''
-            key = ''
-        elif data[i] == '{': 
-            print("Found possible Dict begin")
-            new_list = {} 
-            final[key] = new_list
-            temp = final 
-            final = new_list 
-            key = value
-        elif data[i] == '}': 
-            print("Found possible Dict end")
-            temp2 = new_list 
-            final = temp 
-            new_list = temp2 
-        elif data[i] == '[': 
-            print("Found possible array begin") 
-        elif data[i] == ']': 
-            print("Found possible array end") 
-        
-        if (key_active and not key_filled):
-            key += data[i]
-        elif (key_active and key_filled and value_active): 
-            value += data[i] 
-
-'''
-
-
-class packet: 
-    def __init__(self, array, index): 
-        self.array = array
+class package: 
+    def __init__(self, index, array=None): 
+        self.array = array 
         self.index = index 
 
-def parseDict(data, i): 
-    key = ""
-    value = "" 
-    temp = {} 
-
-    Key = True 
-    Value = False 
-
-    for j in range(i+1, len(data)): 
-        if data[j] == '"': 
-            continue 
-        elif data[j] == ':': 
-            Key = False 
-            Value = True
-        elif data[j] == ',': 
-            temp[key] = value 
-            Key = True 
-            Value = False
-            key = value = ""  
-
-        if data[j] == ',' or data[j] == ':':
-            continue 
-        if Key and not Value and data[j] != '}': 
-            key += data[j]
-        elif not Key and Value and data[j] != '}': 
-            value += data[j] 
-        
-
-        if data[j] == '}':
-            temp[key] = value 
-            break 
-    return packet(temp, j) 
-
-def parseList(data, i): 
-    temp = []
-    value = "" 
-    for j in range(i+1, len(data)): 
-
-        if data[j] == '"': 
-            continue 
-        elif data[j] == ',': 
-            temp.append(value) 
-            value = ""
-
-        if data[j] not in [':', ',', '[', ']', '"']: 
-            value += data[j] 
-
-        if data[j] == ']': 
-            temp.append(value) 
-            break 
-    return packet(temp, j) 
-
-def load(infile): 
-    data = infile.read() 
-    start = False 
-    final = {}
-
-    key = ""
-    value = "" 
-
-    Key = True 
-    Value = False 
-    i = 1
-    while i in range(len(data)): 
-
-        print(data[i], end = '') 
-
+def load_a(data, i, key = ""): 
+    string = "" 
+    while i < len(data): 
+        if data[i] == '[':
+            print("> arry begin:", key)
         if data[i] == '{': 
-            packet = parseDict(data, i)
-            i = packet.index 
-            value = packet.array 
-            continue 
-        elif data[i] == '[': 
-            packet = parseList(data, i)
-            i = packet.index 
-            value = packet.array 
-            continue 
+            #print("> dict begin") 
+            i = load_d(data, i+1).index+1 
+            continue  
+        if data[i] == ']': 
+            print("> arry end")
+            return package(i) 
 
-        elif data[i] == '"':
-            i+=1
-            continue 
-        elif data[i] == ':': 
-            Key = False 
-            Value = True 
-        elif data[i] == ',':
-            final[key] = value 
-            Key = False
-            Value = True 
-            key = ""
-            value = None 
+        string+=data[i]
+        i += 1
 
-        if Key and not Value: 
-            key += data[i] 
-        elif not Key and Value and value is None: 
-            value += data[i] 
+    return package(i) 
+
+
+def load_d(data, i): 
+    string = ""
+ 
+    __list_two__ = {} 
+    while i < len(data): 
+        saved_key = ""
+        if data[i] == '{':
+            j = len(string)-1
+            key = "" 
+            while j > 0: 
+                if string[j] == ',' or string[j] == '{': 
+                    break 
+                key += string[j] 
+                j-=1
+
+            if string.find(key[::-1]): 
+                string = string.replace((','+key[::-1]), "")
             
+            saved_key = key[::-1].strip('\n, ,\t, , ", :')  
+            packet = load_d(data, i+1)
+            i = packet.index+1
+            print(saved_key, packet.array) 
+            #__list_two__[key] = packet.array
+            continue 
+        if data[i] == '[':
+            j = len(string)-1
+            key = "" 
+            while j > 0: 
+                if string[j] == ',' or string[j] == '{' or string[j] == '}': 
+                    break 
+                key += string[j] 
+                j-=1
+            key = key[::-1].strip('\n, ,\t, ", :') 
+            i = load_a(data, i, key).index+1
+            continue 
+        if data[i] == '}': 
+            string = string.splitlines()
+            __list__ = {} 
+            for __string__ in string:
+                key = "" 
+                value = "" 
+                Key = True
+                Value = False
+                check = True  
+                __string__ = __string__.strip("' ', '', ',', '\n', '\t'")
 
-        i+=1
+                for letter in __string__:
+                    if letter == ':' and check and Key: 
+                        Key = False 
+                        Value = True 
+                        check = False
+                        continue 
+                    if not Value: 
+                        key += letter 
+                    elif not Key: 
+                        value += letter 
+
+                if __string__ == '': 
+                    continue 
+
+                key = key.strip('", [, ]')
+                value = value.strip('", ", ], [')
+
+                #print(key, ": ", value) 
+                if key != saved_key: 
+                    __list__[key] = value
+
+            #print("> dict end") 
+            return package(i, __list__) 
+        string += data[i] 
+        i+=1 
+    
+    return package(i, __list_two__) 
 
 
-    return 
+def load(infile, i=0): 
+    __dict__ = {}
+    data = infile.read() 
+
+    while i < len(data): 
+        if data[i] == '{':
+            packet = load_d(data, i) 
+            i = packet.index+1
+            __dict__ = packet.array
+            continue 
+        elif data[i] == '}': 
+            print("> dict end") 
+            return __dict__ 
 
 
-load(open(filename, 'r'))
+        i+=1 
+
+    return __dict__ 
+
+output = load(open(filename, 'r'))
 
 
 

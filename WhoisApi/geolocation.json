@@ -1,0 +1,27 @@
+{"ip":"107.180.14.68",
+"location":{
+    "country":"US",
+    "region":"Arizona",
+    "city":"Sweetwater Ranch",
+    "lat":33.60421,
+    "lng":-111.8882,
+    "postalCode":"",
+    "timezone":"-07:00",
+    "geonameId":5316522},
+    "domains":[
+        "1001leads.com.br",
+        "1oaksecurity.com",
+        "2-tracklabs.com",
+        "2ndamendmenttrampstamp.com",
+        "365isi.com"
+        ],
+    "as":{
+        "asn":26496,
+        "name":"AS-26496-GO-DADDY-COM-LLC",
+        "route":"107.180.0.0\/18",
+        "domain":"http:\/\/www.godaddy.com",
+        "type":"Content"
+        },
+    "isp":"GoDaddy.com, LLC",
+    "connectionType":""
+}

@@ -1,4 +1,4 @@
-FILENAME = "geolocation.json"
+FILENAME = "information.json"
 
 
 class package: 
@@ -13,23 +13,25 @@ def load_arr(data, i=0, arr=[], json={}):
         if data[i] in ['{', '[', ']']: 
             if data[i] == '{': 
                 print("> dict begin")
-                i = load_dict(data, i+1, json).index+1
+                i = load_dict(data, i+1, json).index
                 continue 
             elif data[i] == '[': 
                 print("> arr begin")
-                i = load_arr(data, i+1, json).index+1
+                i = load_arr(data, i+1, json).index
                 continue 
             elif data[i] == ']': 
                 print("< arr end") 
                 break 
         i+=1
 
-    return package(arr, i)  
+    return package(arr, i+1)  
 
 def load_dict(data, i=0 , json={}): 
-    string = "" 
+    string = ""
+    key = "" 
     while i < len(data): 
-        if data[i] in ['{', '}', '[']: 
+        if data[i] in ['{', '}', '[']:
+            temp_dict = {}  
             string = string.splitlines() 
             for j, k in enumerate(string, 0): 
                 key = "" 
@@ -56,7 +58,10 @@ def load_dict(data, i=0 , json={}):
                     if not KEY: 
                         value += letter
                 if key != '':   
-                    print(value) 
+                    pass
+                    #print(key, ':', value)
+                    #json[key] = value
+                    temp_dict[key] = value 
             for word in string: 
                 if word == '' or word == ',': 
                     string.remove(word) 
@@ -64,24 +69,31 @@ def load_dict(data, i=0 , json={}):
             string = "" 
             if data[i] == '{':
                 print("> dict begin")
-                i = load_dict(data, i+1, json).index+1
+                packet = load_dict(data, i+1, json)
+                print(key, end = '') 
+                print(temp_dict) 
+                i = packet.index
+                print(packet.array) 
+                json[key] = packet.array
                 continue 
             elif data[i] == '}': 
                 print("< dict end") 
-                break
+                return package(temp_dict, i+1)
             elif data[i] == '[': 
                 print("> arr begin") 
-                i = load_arr(data, i+1, json).index+1
+                i = load_arr(data, i+1, json).index
                 continue 
 
         string += data[i] 
         i+=1 
 
-    return package(json, i) 
+    return package(json, i+1) 
 
 def load(infile): 
     data = infile.read()
     return load_dict(data).array 
 
 
-print(load(open(FILENAME, 'r')))
+output = load(open(FILENAME, 'r'))
+
+print(output) 

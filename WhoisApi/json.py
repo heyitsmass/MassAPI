@@ -101,4 +101,4 @@ def load_dict(data, i=1, json={}, final={}):
 def load(infile): 
     return load_dict(infile.read()).data
 
-print(load(open("test.json", 'r')))
+#print(load(open("test.json", 'r')))

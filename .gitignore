@@ -1,9 +1,11 @@
 output
+WhoIsApi/json_parser.py.backup 
+WhoIsApi/location.json
 WhoIsApi/information.json
 WhoIsApi/information_2.json
 WhoIsApi/information_3.json
-WhoIsApi/geolocation.json
 WhoIsApi/dnsinformation.json
 WhoIsApi/json_backup.json
-WhoisApi/2e0a91667d1846a78b13f382a4737d95.json
+WhoIsApi/2e0a91667d1846a78b13f382a4737d95.json
+
 

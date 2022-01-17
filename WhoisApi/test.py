@@ -21,14 +21,7 @@ json[buffer[0]] = buffer[1]
 
 print(json) 
 
-
 buffer = '' 
-
-hello = "hello"
-
-print(hello) 
-
-
 
 class J: 
     def __init__(self): 

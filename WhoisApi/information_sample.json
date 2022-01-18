@@ -1,7 +1,7 @@
 {
-  "rawText": "OrgName:        Cox Communications Inc.\u000aOrgId:          CXA\u000aAddress:        1400 Lake Hearn Dr.\u000aCity:           Atlanta\u000aStateProv:      GA\u000aPostalCode:     30319\u000aCountry:        US\u000a",
-  "someFloat": "1.341",
+  "rawText": "someText",
+  "someFloat": 1.3142,
   "someTime": "2021-12-29 11:12:27 UTC", 
-  "someBool": "true", 
-  "someNull": "null"
+  "someBool": true, 
+  "someNull": null
 }

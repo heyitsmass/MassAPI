@@ -1,8 +1,8 @@
 {
   "rawText": "someText",
   "someInt": -10, 
-  "someExponentA": 1E12,
-  "someExponentB": 1.0E-12,
+  "someExponentA": -1E12,
+  "someExponentB": -1.0E-12,
   "someFloat": 1.3451,
   "someTime": "2021-12-29 11:12:27 UTC", 
   "someBool": true,

@@ -48,7 +48,7 @@ for i in range(len(_data)):
 
     _buffer += _data[i] 
 
-_buffer = _buffer.strip('\n').splitlines()W
+_buffer = _buffer.strip('\n').splitlines()
 
 
 for word in _buffer: 

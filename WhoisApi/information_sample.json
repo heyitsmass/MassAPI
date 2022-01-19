@@ -1,4 +1,5 @@
-{
+  
+  
   "rawText": "someText",
   "someInt": -10, 
   "someExponentA": -1E12,
@@ -7,4 +8,3 @@
   "someTime": "2021-12-29 11:12:27 UTC", 
   "someBool": true,
   "someNull": null
-}

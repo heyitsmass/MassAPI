@@ -11,6 +11,13 @@ class UnknownTokenError(Exception):
  
     def __str__(self):
         return "Line #%s, Found token: %s" % (self.lineno, self.token)
+
+class ParseError(Exception):
+    def __init__(self, token): 
+        self.token = token 
+    
+    def __str__(self): 
+        return "Unexpected %s found." % (self.token) 
  
  
 class _InputScanner(object):
@@ -102,16 +109,37 @@ class Lexer(object):
         """
         return _InputScanner(self, input)
 
-
-rules = [ 
-  ("KEY", r'"[a-zA-Z]*"\w*:'), 
-  ("VALUE_STRING", r'"[a-zA-Z]*",\n'),
-  ("VALUE_INT", r"[0-9]+[0-9],+\n*|-[0-9]+[0-9],+\n*"),
-
+entities = [ 
+    '-'
 ]
 
-data = open('information_sample.json', 'r').read()
+rules = [
+  #("BEGIN", r"{\w*\n*"),
+  #("KEY", r"(\"((?!\\).)*\")$|\"((\\{1}[n]).*)\""),
+  #\"((.+\\{1}[n]).*)\"
+  #("VALUE_STRING", r'".*(?=\\)*,?\n*'),
+  #("VALUE_INT", r"[0-9]+[0-9],+\n*|-[0-9]+[0-9],?\n*"),
+  #("VALUE_FLOAT", r"-*[0-9]E[0-9]*,\n|-*[0-9].[0-9]E-[0-9]*,\n|-*[0-9].[0-9]*,?\n"),
+  #("VALUE_BOOL", r"true,?\n*|false,?\n*"), 
+  #("VALUE_NULL", r"null,?\n*"),
+  #("END", r"}\w*\n*")
+]
+
+data = open('information_sample_2.json', 'r').read()
 lex = Lexer(rules)
 
+begin = 0
+end = 0
 for token in lex.scan(data): 
+  if token[0] == "DICT_BEGIN": 
+      begin += 1
+  elif token[0] == "DICT_END":
+      end += 1
+    
+  if end > begin:
+      raise ParseError(token[1])
+
   print(token) 
+
+if begin != end: 
+    raise(ParseError('{'))

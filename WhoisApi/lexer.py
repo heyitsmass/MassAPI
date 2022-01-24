@@ -109,20 +109,18 @@ class Lexer(object):
         """
         return _InputScanner(self, input)
 
-entities = [ 
-    '-'
-]
-
-rules = [
-  #("BEGIN", r"{\w*\n*"),
-  #("KEY", r"(\"((?!\\).)*\")$|\"((\\{1}[n]).*)\""),
-  #\"((.+\\{1}[n]).*)\"
-  #("VALUE_STRING", r'".*(?=\\)*,?\n*'),
-  #("VALUE_INT", r"[0-9]+[0-9],+\n*|-[0-9]+[0-9],?\n*"),
-  #("VALUE_FLOAT", r"-*[0-9]E[0-9]*,\n|-*[0-9].[0-9]E-[0-9]*,\n|-*[0-9].[0-9]*,?\n"),
-  #("VALUE_BOOL", r"true,?\n*|false,?\n*"), 
-  #("VALUE_NULL", r"null,?\n*"),
-  #("END", r"}\w*\n*")
+rules = [ 
+    ("BEGIN", r"{"),
+    ("KEY_GEN", r"\"[a-zA-Z]+\":"),
+    ("KEY_VALUE", r",?(\n|\u0020|\w)*\"([a-zA-Z]|[0-9])+\":\"([a-zA-Z]|[0-9])+\""),
+    ("KEY_VALUE_2", r",?(\n|\u0020|\w)*\"([a-zA-Z]|[0-9])+\":-?([0-9]+)"),
+    ("KEY_VALUE_3", r",?(\n|\u0020|\w)*\"([a-zA-Z]|[0-9])+\":(true|false)"),
+    #("OBJ_ARR_KEY", r"\"(((?!\\).)*(\\n|\\t)?)*\":"), 
+    #("VALID_KEY", r"(((?!\\).)*(\\n|\\t)?)*\":"),
+    #("VALID_VALUE", r"((?!\\).)*\""),
+    #("COMMA", r",(\u0020|\w|\n)*\""), 
+    #("VALUE_BOOL", r"true|false"),
+    ("END", r"}")
 ]
 
 data = open('information_sample_2.json', 'r').read()
@@ -131,9 +129,9 @@ lex = Lexer(rules)
 begin = 0
 end = 0
 for token in lex.scan(data): 
-  if token[0] == "DICT_BEGIN": 
+  if token[0] == "BEGIN": 
       begin += 1
-  elif token[0] == "DICT_END":
+  elif token[0] == "END":
       end += 1
     
   if end > begin:

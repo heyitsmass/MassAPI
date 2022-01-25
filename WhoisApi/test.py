@@ -1,12 +1,12 @@
 import json
 from multiprocessing.sharedctypes import Value 
 
-_filename = "information_sample.json" 
+_filename = "information_sample_2.json" 
 _data = open(_filename, 'r').read() 
-#output = json.load(open(_filename, 'r'))
+output = json.load(open(_filename, 'r'))
 
-#for key in output: 
-#    print(key + ': ' + str(output[key]), str(type(output[key]))) 
+for key in output: 
+    print(key + ': ' + str(output[key]), str(type(output[key]))) 
 print()
 
 def isFloat(input): 

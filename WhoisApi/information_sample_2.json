@@ -1,12 +1,15 @@
 {
   "AnotherObject":
   {
-    "Someobject":
+    "Some-object":
     {
-      "SomeKey1":"SomeValue", 
-      "Somekey2":10, 
-      "Somekey3":true
+      "SomeKey1":"SomeValue",
+      "Somekey2": 
+      -10, 
+      "Somekey3": true
     }, 
-    "SomeString": "Somestring"
+    "SomeString": "Somestring",
+    "SomeValue": "SomeValue",
+    "someArray":["value1", "value2", "value3"]
   }
 }

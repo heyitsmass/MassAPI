@@ -1,3 +1,4 @@
+from operator import truediv
 import re
  
 class UnknownTokenError(Exception):
@@ -111,25 +112,23 @@ class Lexer(object):
 
 rules = [ 
     ("BEGIN", r"{"),
-    ("KEY_GEN", r"\"[a-zA-Z]+\":"),
-    ("KEY_VALUE", r",?(\n|\u0020|\w)*\"([a-zA-Z]|[0-9])+\":\"([a-zA-Z]|[0-9])+\""),
-    ("KEY_VALUE_2", r",?(\n|\u0020|\w)*\"([a-zA-Z]|[0-9])+\":-?([0-9]+)"),
-    ("KEY_VALUE_3", r",?(\n|\u0020|\w)*\"([a-zA-Z]|[0-9])+\":(true|false)"),
-    #("OBJ_ARR_KEY", r"\"(((?!\\).)*(\\n|\\t)?)*\":"), 
-    #("VALID_KEY", r"(((?!\\).)*(\\n|\\t)?)*\":"),
-    #("VALID_VALUE", r"((?!\\).)*\""),
-    #("COMMA", r",(\u0020|\w|\n)*\""), 
-    #("VALUE_BOOL", r"true|false"),
+    #("OBJ_BEGIN", r"\"(((?!\\).)*(\\n|\\t)?)*\"(\u0020|\n)*:(\u0020|\n)*{((\n|\u0020|\w)*\"(((?!\\).)*(\\n|\\t)?)*\":(\u0020)*\"(((?!\\).)*(\\n|\\t)?)*\")?"),
+    #("KEY_VALUE", r",{1}(\n|\u0020|\w)*\"(((?!\\).)*(\\n|\\t)?)*\"(\u0020|\n)*:(\u0020|\n)*\"(((?!\\).)*(\\n|\\t)?)*\""),
+    #("KEY_VALUE_2", r",{1}(\n|\u0020|\w)*\"(((?!\\).)*(\\n|\\t)?)*\"(\u0020|\n)*:(\u0020|\n)*-?([0-9]+)"),
+    #("KEY_VALUE_3", r",{1}(\n|\u0020|\w)*\"([a-zA-Z]|[0-9])+\"(\u0020|\n)*:(\u0020|\n)*(true|false)"),
+    ("ARR_BEGIN", r"\"(((?!\\).)+(\\n|\\t)?)*\":"),#(\u0020|\n)*:(\u0020|\n)*"),
     ("END", r"}")
+
+    #THIS ONE \"(((?!\\).)?(\\n)?)*\":      #Avoids catastrophic backtracking
 ]
 
-data = open('information_sample_2.json', 'r').read()
-lex = Lexer(rules)
+data = open('information_sample.json', 'r').read()
+lex = Lexer(rules, omit_whitespace=True)
 
 begin = 0
 end = 0
 for token in lex.scan(data): 
-  if token[0] == "BEGIN": 
+  if token[0] in ["BEGIN", "OBJ_BEGIN"]: 
       begin += 1
   elif token[0] == "END":
       end += 1

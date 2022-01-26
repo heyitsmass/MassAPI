@@ -121,13 +121,16 @@ objBegin ^({?\s*?(\".*?\")[\s*:]*)?\s*?{\s*\".*?\"[\s*:]*\".*?\"|,{\s*(\".*?\")[
 
 rules = [ 
 
+    ("obj_begin", r"{{1}\s*[\"{[]"),
+    ("val_word", r"([^\",{}\s](?<!\\)|\\n)+")#[,{]?\s*\"{1}
+
 ]
 
-data = open('information_sample.json', 'r').read()
+data = open('information.json', 'r').read()
 lex = Lexer(rules, omit_whitespace=True)
 
 begin = 0
-end = 0
+end = 0 
 for token in lex.scan(data): 
   if token[0] in ["BEGIN", "OBJ_BEGIN"]: 
       begin += 1

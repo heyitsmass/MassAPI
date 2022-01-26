@@ -110,16 +110,17 @@ class Lexer(object):
         """
         return _InputScanner(self, input)
 
-rules = [ 
-    ("BEGIN", r"{"),
-    #("OBJ_BEGIN", r"\"(((?!\\).)*(\\n|\\t)?)*\"(\u0020|\n)*:(\u0020|\n)*{((\n|\u0020|\w)*\"(((?!\\).)*(\\n|\\t)?)*\":(\u0020)*\"(((?!\\).)*(\\n|\\t)?)*\")?"),
-    #("KEY_VALUE", r",{1}(\n|\u0020|\w)*\"(((?!\\).)*(\\n|\\t)?)*\"(\u0020|\n)*:(\u0020|\n)*\"(((?!\\).)*(\\n|\\t)?)*\""),
-    #("KEY_VALUE_2", r",{1}(\n|\u0020|\w)*\"(((?!\\).)*(\\n|\\t)?)*\"(\u0020|\n)*:(\u0020|\n)*-?([0-9]+)"),
-    #("KEY_VALUE_3", r",{1}(\n|\u0020|\w)*\"([a-zA-Z]|[0-9])+\"(\u0020|\n)*:(\u0020|\n)*(true|false)"),
-    ("ARR_BEGIN", r"\"(((?!\\).)+(\\n|\\t)?)*\":"),#(\u0020|\n)*:(\u0020|\n)*"),
-    ("END", r"}")
+"""
+keyString ^,{1}\s+\"(.(?<!\\)|\\n)+?\"[\s*:]*\"(.(?<!\\)|\\n|\\u[0-9a-fA-F]{4})*\"
 
-    #THIS ONE \"(((?!\\).)?(\\n)?)*\":      #Avoids catastrophic backtracking
+keyNumber ^,{1}\s+\"(.(?<!\\)|\\n)+?\"[\s*:]*([-]?\d+[\.]?\d?([Ee][-]?\d+)?)				        (Int, Float & Scientific Form) 
+
+objBegin ^({?\s*?(\".*?\")[\s*:]*)?\s*?{\s*\".*?\"[\s*:]*\".*?\"|,{\s*(\".*?\")[\s*:]*\".*?\"	-> 	https://gyazo.com/3ee4f5d657ebcaeb12291d0942b9120c
+
+"""
+
+rules = [ 
+
 ]
 
 data = open('information_sample.json', 'r').read()
